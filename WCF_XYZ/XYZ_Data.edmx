@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="XYZ_DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="XYZ_DataModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="XYZ_DataModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PartnerCustomer" EntityType="XYZ_DataModel.Store.PartnerCustomer" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_PartnerCustomer_Customer" Association="XYZ_DataModel.Store.FK_PartnerCustomer_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="PartnerCustomer" EntitySet="PartnerCustomer" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CustName" Type="nchar" Nullable="false" MaxLength="100" />
+          <Property Name="CustBirthDate" Type="date" />
+          <Property Name="CustCellPhone" Type="nchar" MaxLength="20" />
+          <Property Name="CustPhone" Type="nchar" MaxLength="20" />
+          <Property Name="CustAddr" Type="nchar" MaxLength="100" />
+          <Property Name="CustZip" Type="nchar" MaxLength="10" />
+          <Property Name="CustCity" Type="nchar" MaxLength="50" />
+          <Property Name="CustState" Type="nchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="PartnerCustomer">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="int" Nullable="false" />
+          <Property Name="PartId" Type="nchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_PartnerCustomer_Customer">
+          <End Role="Customer" Type="XYZ_DataModel.Store.Customer" Multiplicity="1" />
+          <End Role="PartnerCustomer" Type="XYZ_DataModel.Store.PartnerCustomer" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustId" />
+            </Principal>
+            <Dependent Role="PartnerCustomer">
+              <PropertyRef Name="CustId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="XYZ_DataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="XYZ_DataEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Customer" EntityType="XYZ_DataModel.Customer" />
+          <EntitySet Name="PartnerCustomer" EntityType="XYZ_DataModel.PartnerCustomer" />
+          <AssociationSet Name="FK_PartnerCustomer_Customer" Association="XYZ_DataModel.FK_PartnerCustomer_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="PartnerCustomer" EntitySet="PartnerCustomer" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CustName" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="true" />
+          <Property Name="CustBirthDate" Type="DateTime" Precision="0" />
+          <Property Name="CustPhone" Type="String" MaxLength="20" Unicode="true" FixedLength="true" />
+          <Property Name="CustAddr" Type="String" MaxLength="100" Unicode="true" FixedLength="true" />
+          <Property Name="CustZip" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="CustCity" Type="String" MaxLength="50" Unicode="true" FixedLength="true" />
+          <Property Name="CustState" Type="String" MaxLength="2" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="PartnerCustomer" Relationship="XYZ_DataModel.FK_PartnerCustomer_Customer" FromRole="Customer" ToRole="PartnerCustomer" />
+          <Property Type="String" Name="CustCellPhone" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PartnerCustomer">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Type="Int32" Name="CustId" Nullable="false" />
+          <Property Type="String" Name="PartId" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="XYZ_DataModel.FK_PartnerCustomer_Customer" FromRole="PartnerCustomer" ToRole="Customer" />
+        </EntityType>
+        <Association Name="FK_PartnerCustomer_Customer">
+          <End Type="XYZ_DataModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="XYZ_DataModel.PartnerCustomer" Role="PartnerCustomer" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustId" />
+            </Principal>
+            <Dependent Role="PartnerCustomer">
+              <PropertyRef Name="CustId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="XYZ_DataModelStoreContainer" CdmEntityContainer="XYZ_DataEntities">
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="XYZ_DataModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustCellPhone" ColumnName="CustCellPhone" />
+                <ScalarProperty Name="CustId" ColumnName="CustId" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="CustBirthDate" ColumnName="CustBirthDate" />
+                <ScalarProperty Name="CustPhone" ColumnName="CustPhone" />
+                <ScalarProperty Name="CustAddr" ColumnName="CustAddr" />
+                <ScalarProperty Name="CustZip" ColumnName="CustZip" />
+                <ScalarProperty Name="CustCity" ColumnName="CustCity" />
+                <ScalarProperty Name="CustState" ColumnName="CustState" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PartnerCustomer">
+            <EntityTypeMapping TypeName="XYZ_DataModel.PartnerCustomer">
+              <MappingFragment StoreEntitySet="PartnerCustomer">
+                <ScalarProperty Name="CustId" ColumnName="CustId" />
+                <ScalarProperty Name="PartId" ColumnName="PartId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
